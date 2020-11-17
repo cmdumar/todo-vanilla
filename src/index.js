@@ -1,8 +1,4 @@
 import './style.scss';
+import init from './modules/domElements';
 
-const heading = document.createElement('h1');
-heading.textContent = 'Hello World!';
-
-const body = document.querySelector('body');
-
-body.append(heading);
+init();
