@@ -48,6 +48,7 @@ dueDate.required = true;
 
 const selectProject = document.createElement('select');
 selectProject.setAttribute('name', 'projects');
+selectProject.id = 'project-options';
 
 const keys = Object.keys(localStorage);
 
