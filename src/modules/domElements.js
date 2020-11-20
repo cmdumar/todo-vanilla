@@ -1,7 +1,18 @@
 const body = document.querySelector('body');
+const keys = Object.keys(localStorage);
 
 const container = document.createElement('div');
 container.id = 'container';
+
+const sideNav = document.createElement('div');
+sideNav.id = 'side-nav';
+
+const navList = document.createElement('ul');
+navList.id = 'nav-list';
+
+const main = document.createElement('div');
+main.id = 'main-content';
+
 
 const heading = document.createElement('h1');
 heading.id = 'heading';
@@ -50,9 +61,12 @@ const selectProject = document.createElement('select');
 selectProject.setAttribute('name', 'projects');
 selectProject.id = 'project-options';
 
-const keys = Object.keys(localStorage);
-
 keys.forEach(item => {
+  const li = document.createElement('li');
+  const anchor = document.createElement('button');
+  anchor.textContent = item;
+  li.append(anchor);
+  navList.append(li);
   const option = document.createElement('option');
   option.textContent = item;
   option.value = item;
@@ -63,9 +77,13 @@ const submit = document.createElement('input');
 submit.setAttribute('type', 'submit');
 submit.id = 'create-todo';
 
+sideNav.append(navList);
+
 todoForm.append(title, desc, dueDate, selectProject, submit);
 
-container.append(heading, newProjectTitle, projectForm, todoForm, content);
+main.append(heading, newProjectTitle, projectForm, todoForm, content);
+
+container.append(sideNav, main);
 
 const init = function init() {
   body.append(container);

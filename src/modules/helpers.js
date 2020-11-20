@@ -37,11 +37,19 @@ function errorMsg(element, formEle) {
 }
 
 function refreshProjects() {
+  const navList = document.getElementById('nav-list');
   const projects = document.querySelector('#project-options');
-  projects.innerHTML = '';
+  projects.textContent = '';
+  navList.textContent = '';
 
   const keys = Object.keys(localStorage);
   keys.forEach(item => {
+    const li = document.createElement('li');
+    const anchor = document.createElement('button');
+    anchor.textContent = item;
+    li.append(anchor);
+    navList.append(li);
+
     const option = document.createElement('option');
     option.textContent = item;
     option.value = item;
@@ -62,6 +70,42 @@ function deleteTodo(item, idx) {
     localStorage.setItem('allTodos', JSON.stringify(allArr));
     document.getElementById(`card-${idx}`).remove();
   });
+}
+
+function createTodoDOM(item, idx) {
+  const todoCard = document.createElement('div');
+  todoCard.classList.add('card');
+  todoCard.id = `card-${idx}`;
+
+  const title = document.createElement('h2');
+  title.classList.add('title');
+  title.textContent = item.title;
+
+  const desc = document.createElement('p');
+  desc.classList.add('desc-text');
+  desc.textContent = item.description;
+
+  const date = document.createElement('p');
+  date.classList.add('date-text');
+  date.textContent = item.dueDate;
+
+  const project = document.createElement('p');
+  project.classList.add('project');
+  project.textContent = item.project;
+
+  const editBtn = document.createElement('button');
+  editBtn.textContent = 'Edit Todo';
+  editBtn.classList.add('edit-btn');
+  editBtn.id = `edit-btn-${idx}`;
+
+  const deleteBtn = document.createElement('button');
+  deleteBtn.textContent = 'Delete Todo';
+  deleteBtn.classList.add('delete-btn');
+  deleteBtn.id = `delete-btn-${idx}`;
+
+  todoCard.append(title, desc, date, project, editBtn, deleteBtn);
+
+  return todoCard;
 }
 
 function editTodo(item, idx) {
@@ -103,49 +147,24 @@ function editTodo(item, idx) {
 
     cancel.addEventListener('click', e => {
       e.preventDefault();
-      card.remove();
-      createTodoDOM(item, idx);
+      card.replaceWith(createTodoDOM(item, idx));
+      deleteTodo(item, idx);
+      editTodo(item, idx);
+    });
+
+    save.addEventListener('click', e => {
+      e.preventDefault();
+      const all = JSON.parse(localStorage.getItem('allTodos'));
+      const todo = all[idx];
+      todo.title = title.value;
+      todo.description = desc.value;
+      todo.dueDate = date.value;
+      localStorage.setItem('allTodos', JSON.stringify(all));
+      card.replaceWith(createTodoDOM(todo, idx));
+      deleteTodo(item, idx);
+      editTodo(item, idx);
     });
   });
-}
-
-function createTodoDOM(item, idx) {
-  const content = document.querySelector('#todo-content');
-  const todoCard = document.createElement('div');
-  todoCard.classList.add('card');
-  todoCard.id = `card-${idx}`;
-
-  const title = document.createElement('h2');
-  title.classList.add('title');
-  title.textContent = item.title;
-
-  const desc = document.createElement('p');
-  desc.classList.add('desc-text');
-  desc.textContent = item.description;
-
-  const date = document.createElement('p');
-  date.classList.add('date-text');
-  date.textContent = item.dueDate;
-
-  const project = document.createElement('p');
-  project.classList.add('project');
-  project.textContent = item.project;
-
-  const editBtn = document.createElement('button');
-  editBtn.textContent = 'Edit Todo';
-  editBtn.classList.add('edit-btn');
-  editBtn.id = `edit-btn-${idx}`;
-
-  const deleteBtn = document.createElement('button');
-  deleteBtn.textContent = 'Delete Todo';
-  deleteBtn.classList.add('delete-btn');
-  deleteBtn.id = `delete-btn-${idx}`;
-
-  todoCard.append(title, desc, date, project, editBtn, deleteBtn);
-  content.append(todoCard);
-
-  deleteTodo(item, idx);
-  editTodo(item, idx);
 }
 
 export {

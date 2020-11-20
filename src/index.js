@@ -29,9 +29,8 @@ submit.addEventListener('click', e => {
     createTodoInstance(todoForm);
     displayTodos();
     todoForm.reset();
-  } else {
-    return null;
   }
+  return null;
 });
 
 createProjectBtn.addEventListener('click', e => {
@@ -40,7 +39,6 @@ createProjectBtn.addEventListener('click', e => {
     createProject(projectForm);
     refreshProjects();
     projectForm.reset();
-  } else {
-    return null;
   }
+  return null;
 });
