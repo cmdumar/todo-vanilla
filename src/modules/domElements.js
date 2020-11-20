@@ -1,3 +1,5 @@
+import displayTodos from './displayTodos';
+
 const body = document.querySelector('body');
 const keys = Object.keys(localStorage);
 
@@ -12,7 +14,6 @@ navList.id = 'nav-list';
 
 const main = document.createElement('div');
 main.id = 'main-content';
-
 
 const heading = document.createElement('h1');
 heading.id = 'heading';
@@ -64,6 +65,7 @@ selectProject.id = 'project-options';
 keys.forEach(item => {
   const li = document.createElement('li');
   const anchor = document.createElement('button');
+  anchor.classList.add('project-btn');
   anchor.textContent = item;
   li.append(anchor);
   navList.append(li);
@@ -87,6 +89,7 @@ container.append(sideNav, main);
 
 const init = function init() {
   body.append(container);
+  displayTodos('allTodos');
 };
 
 export default init;

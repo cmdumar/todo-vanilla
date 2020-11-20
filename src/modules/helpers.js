@@ -46,6 +46,7 @@ function refreshProjects() {
   keys.forEach(item => {
     const li = document.createElement('li');
     const anchor = document.createElement('button');
+    anchor.classList.add('project-btn');
     anchor.textContent = item;
     li.append(anchor);
     navList.append(li);

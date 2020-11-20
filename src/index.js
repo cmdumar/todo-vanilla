@@ -7,27 +7,25 @@ import {
   initProject,
   refreshProjects,
 } from './modules/helpers';
-import displayTodos from './modules/displayTodos';
+import displayTodos, { projectEvent } from './modules/displayTodos';
 import createProject from './modules/createProject';
 
 init();
 initProject();
+projectEvent();
 
 const todoForm = document.querySelector('#new-todo');
 const submit = document.querySelector('#create-todo');
 const createProjectBtn = document.querySelector('#create-project');
 const projectForm = document.querySelector('#project-form');
-
-
-if (localStorage.getItem('allTodos') != null) {
-  displayTodos();
-}
+// const todos = document.getElementById('todo-content');
 
 submit.addEventListener('click', e => {
   e.preventDefault();
+  const { projects } = todoForm.elements;
   if (validateForm(todoForm)) {
     createTodoInstance(todoForm);
-    displayTodos();
+    displayTodos(projects.value);
     todoForm.reset();
   }
   return null;
@@ -38,6 +36,7 @@ createProjectBtn.addEventListener('click', e => {
   if (validateProject(projectForm)) {
     createProject(projectForm);
     refreshProjects();
+    projectEvent();
     projectForm.reset();
   }
   return null;
