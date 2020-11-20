@@ -18,14 +18,15 @@ const todoForm = document.querySelector('#new-todo');
 const submit = document.querySelector('#create-todo');
 const createProjectBtn = document.querySelector('#create-project');
 const projectForm = document.querySelector('#project-form');
-// const todos = document.getElementById('todo-content');
 
 submit.addEventListener('click', e => {
   e.preventDefault();
   const { projects } = todoForm.elements;
+  const groupTitle = document.getElementById('group-title');
   if (validateForm(todoForm)) {
     createTodoInstance(todoForm);
-    displayTodos(projects.value);
+    groupTitle.textContent = String(projects.value) === 'allTodos' ? 'Home' : projects.value;
+    displayTodos(String(projects.value));
     todoForm.reset();
   }
   return null;

@@ -43,12 +43,18 @@ function refreshProjects() {
   navList.textContent = '';
 
   const keys = Object.keys(localStorage);
+  keys.splice(keys.indexOf('allTodos'), 1);
   keys.forEach(item => {
+    const len = JSON.parse(localStorage.getItem(item)).length;
     const li = document.createElement('li');
     const anchor = document.createElement('button');
+    const totalTodos = document.createElement('span');
     anchor.classList.add('project-btn');
     anchor.textContent = item;
-    li.append(anchor);
+
+    totalTodos.textContent = len;
+
+    li.append(anchor, totalTodos);
     navList.append(li);
 
     const option = document.createElement('option');
@@ -78,9 +84,15 @@ function createTodoDOM(item, idx) {
   todoCard.classList.add('card');
   todoCard.id = `card-${idx}`;
 
-  const title = document.createElement('h2');
+  const title = document.createElement('button');
   title.classList.add('title');
   title.textContent = item.title;
+  title.id = `toggle-${idx}`;
+
+  const hidden = document.createElement('div');
+  hidden.id = `hidden-${idx}`;
+  hidden.classList.add('todo-details');
+  hidden.classList.add('hidden');
 
   const desc = document.createElement('p');
   desc.classList.add('desc-text');
@@ -104,9 +116,20 @@ function createTodoDOM(item, idx) {
   deleteBtn.classList.add('delete-btn');
   deleteBtn.id = `delete-btn-${idx}`;
 
-  todoCard.append(title, desc, date, project, editBtn, deleteBtn);
+  hidden.append(desc, date, project, editBtn, deleteBtn);
+
+  todoCard.append(title, hidden);
 
   return todoCard;
+}
+
+function expandHidden(idx) {
+  const hidden = document.getElementById(`hidden-${idx}`);
+  const card = document.getElementById(`toggle-${idx}`);
+
+  card.addEventListener('dblclick', () => {
+    hidden.classList.toggle('hidden');
+  });
 }
 
 function editTodo(item, idx) {
@@ -151,6 +174,7 @@ function editTodo(item, idx) {
       card.replaceWith(createTodoDOM(item, idx));
       deleteTodo(item, idx);
       editTodo(item, idx);
+      expandHidden(idx);
     });
 
     save.addEventListener('click', e => {
@@ -164,6 +188,7 @@ function editTodo(item, idx) {
       card.replaceWith(createTodoDOM(todo, idx));
       deleteTodo(item, idx);
       editTodo(item, idx);
+      expandHidden(idx);
     });
   });
 }
@@ -177,4 +202,5 @@ export {
   createTodoDOM,
   deleteTodo,
   editTodo,
+  expandHidden,
 };
