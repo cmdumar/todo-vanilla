@@ -1,6 +1,7 @@
 * {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 
 html,
@@ -9,8 +10,15 @@ body {
   width: 100%;
 }
 
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
 body {
-  font-family: sans-serif;
+  //color: #818078;
+  font-family: Futura, sans-serif;
+  color: #3c4146;
 }
 
 #container {
@@ -22,7 +30,7 @@ body {
     height: 100%;
     background-color: #fafafa;
 
-    .all-todos {
+    #all-todos {
       background: 0;
       border: 0;
       font-size: 25px;
@@ -49,7 +57,7 @@ body {
       .project-btn {
         background: 0;
         border: 0;
-        font-size: 20px;
+        font-size: 17px;
         font-weight: lighter;
         cursor: pointer;
         padding: 10px 10px 10px 20px;
@@ -58,10 +66,48 @@ body {
         text-transform: capitalize;
         outline: 0;
 
+        span {
+          padding-left: 7px;
+          font-size: 15px;
+          font-weight: 100;
+          color: rgb(219, 76, 63);
+        }
+
         &:hover,
         &:focus {
           background-color: rgba(219, 76, 63, 0.4);
         }
+      }
+    }
+
+    #project-form {
+      input {
+        overflow: hidden;
+        padding: 8px 5px 8px 10px;
+        width: 100%;
+        appearance: none;
+        border: 1px solid rgba(219, 76, 63, 0.4);
+        font-size: 16px;
+        margin: 10px 0;
+
+        &::placeholder {
+          color: gray;
+          font-weight: 100;
+        }
+      }
+
+      button {
+        appearance: none;
+        background-color: rgba(219, 76, 63, 0.4);
+        border: 0;
+        font-weight: 100;
+        font-size: 15px;
+        cursor: pointer;
+        padding: 10px;
+        width: 100%;
+        text-align: center;
+        text-transform: capitalize;
+        outline: 0;
       }
     }
   }
@@ -71,14 +117,81 @@ body {
     display: grid;
     place-items: center;
 
+    .titleDiv {
+      display: flex;
+      cursor: pointer;
+
+      img {
+        width: 15px;
+        height: 15px;
+        margin-left: 10px;
+      }
+
+      .expand {
+        color: #ccc;
+        display: flex;
+        align-items: center;
+      }
+    }
+
     #group-title {
       text-transform: capitalize;
       padding: 15px 0;
     }
 
+    #todo-content {
+      margin-bottom: 30px;
+    }
+
+    #todo-form,
+    #edit-form {
+      display: grid;
+      min-width: 400px;
+      margin-top: 20px;
+
+      input {
+        padding: 10px 5px;
+        margin-bottom: 20px;
+      }
+
+      textarea {
+        margin-bottom: 20px;
+        padding: 10px 5px;
+      }
+
+      select {
+        margin-top: 10px;
+        margin-bottom: 20px;
+      }
+
+      button {
+        padding: 10px 6px;
+        margin-bottom: 15px;
+      }
+
+      input[type='submit'],
+      button {
+        background-color: rgb(219, 76, 63);
+        color: white;
+        font-weight: bolder;
+        border: 1px solid rgb(219, 76, 63);
+        transition: all 0.2s ease-in-out;
+        border-radius: 4px;
+        appearance: none;
+        font-family: inherit;
+
+        &:hover,
+        &:focus {
+          background-color: transparent;
+          color: #3c4146;
+        }
+      }
+    }
+
     .card {
       padding: 10px 0;
       overflow: hidden;
+      border-bottom: 1px solid #f0f0f0;
 
       .hidden {
         display: none;
@@ -86,14 +199,74 @@ body {
 
       .todo-details {
         padding: 5px;
+        margin-top: 15px;
+
+        .meta {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .btns {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 15px;
+
+          .edit-btn,
+          .del-btn {
+            font-family: inherit;
+            appearance: none;
+            border: 0;
+            border-radius: 5px;
+            background: rgba(219, 76, 63, 0.5);
+            color: #3c4146;
+            padding: 6px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            line-height: 19px;
+            box-sizing: border-box;
+
+            &:focus {
+              outline: rgb(219, 76, 63) auto 1px;
+            }
+
+            img {
+              display: inline-block;
+              vertical-align: middle;
+              fill: #fff;
+              width: 15px;
+              height: 15px;
+              margin-right: 0.25rem;
+            }
+          }
+        }
       }
 
       .desc-text {
-        font-size: 20px;
-        color: gray;
+        font-size: 16px;
+        color: #3c4146;
+        margin-bottom: 25px;
+      }
+
+      .date-text {
+        font-size: 12px;
+        color: rgb(219, 76, 63);
+        font-weight: 100;
+      }
+
+      .project {
+        background-color: rgb(219, 76, 63);
+        padding: 3px 10px;
+        border-radius: 3px;
+        margin-bottom: 10px;
+        font-size: 12px;
+        font-weight: 100;
+        color: white;
+        text-transform: capitalize;
       }
 
       .title {
+        font-family: inherit;
         font-size: 18px;
         background: 0;
         appearance: none;

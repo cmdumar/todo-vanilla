@@ -1,3 +1,7 @@
+import editIcon from '../images/pencil.svg';
+import delIcon from '../images/remove.svg';
+import expandIcon from '../images/expand.svg';
+
 function validateForm(form) {
   const { title, description, dueDate } = form.elements;
 
@@ -24,56 +28,55 @@ function initProject() {
   }
 }
 
-function errorMsg(element, formEle) {
-  const container = document.querySelector(`#${element}`);
-  const form = document.querySelector(`#${formEle}`);
-  const error = document.createElement('div');
-  if (error) {
-    error.remove();
-  }
-  error.id = 'error-msg';
-  error.textContent = 'Invalid input!';
-  container.insertBefore(error, form);
-}
-
 function refreshProjects() {
   const navList = document.getElementById('nav-list');
-  const projects = document.querySelector('#project-options');
-  projects.textContent = '';
+  const selectProject = document.querySelector('#project-options');
+  selectProject.textContent = '';
   navList.textContent = '';
 
   const keys = Object.keys(localStorage);
   keys.splice(keys.indexOf('allTodos'), 1);
+  if (keys.length) {
+    keys.forEach(item => {
+      const len = JSON.parse(localStorage.getItem(item)).length;
+      const li = document.createElement('li');
+      const anchor = document.createElement('button');
+      const totalTodos = document.createElement('span');
+      anchor.classList.add('project-btn');
+      anchor.textContent = item;
+      anchor.value = item;
+
+      totalTodos.textContent = len;
+
+      anchor.append(totalTodos);
+
+      li.append(anchor);
+      navList.append(li);
+    });
+  }
+
+  keys.push('allTodos');
   keys.forEach(item => {
-    const len = JSON.parse(localStorage.getItem(item)).length;
-    const li = document.createElement('li');
-    const anchor = document.createElement('button');
-    const totalTodos = document.createElement('span');
-    anchor.classList.add('project-btn');
-    anchor.textContent = item;
-
-    totalTodos.textContent = len;
-
-    li.append(anchor, totalTodos);
-    navList.append(li);
-
     const option = document.createElement('option');
     option.textContent = item;
     option.value = item;
-    projects.append(option);
+    selectProject.append(option);
   });
 }
 
 function deleteTodo(item, idx) {
   const deleteBtn = document.getElementById(`delete-btn-${idx}`);
-
   deleteBtn.addEventListener('click', e => {
     e.preventDefault();
-    const arr = JSON.parse(localStorage.getItem(item.project));
     const allArr = JSON.parse(localStorage.getItem('allTodos'));
+    const arr = JSON.parse(localStorage.getItem(item.project));
+
     allArr.splice(allArr.indexOf(item), 1);
-    arr.splice(arr.indexOf(item), 1);
-    localStorage.setItem(item.project, JSON.stringify(arr));
+    if (item.project !== 'allTodos') {
+      arr.splice(arr.indexOf(item), 1);
+      localStorage.setItem(item.project, JSON.stringify(arr));
+    }
+
     localStorage.setItem('allTodos', JSON.stringify(allArr));
     document.getElementById(`card-${idx}`).remove();
   });
@@ -84,10 +87,23 @@ function createTodoDOM(item, idx) {
   todoCard.classList.add('card');
   todoCard.id = `card-${idx}`;
 
+  const titleDiv = document.createElement('div');
+  titleDiv.classList.add('titleDiv');
+
   const title = document.createElement('button');
   title.classList.add('title');
   title.textContent = item.title;
-  title.id = `toggle-${idx}`;
+  titleDiv.id = `toggle-${idx}`;
+
+  const expand = document.createElement('span');
+  expand.textContent = 'Expand';
+  expand.classList.add('expand');
+
+  const exIcon = document.createElement('img');
+  exIcon.src = expandIcon;
+  expand.append(exIcon);
+
+  titleDiv.append(title, expand);
 
   const hidden = document.createElement('div');
   hidden.id = `hidden-${idx}`;
@@ -98,36 +114,62 @@ function createTodoDOM(item, idx) {
   desc.classList.add('desc-text');
   desc.textContent = item.description;
 
+  const meta = document.createElement('div');
+  meta.classList.add('meta');
+
   const date = document.createElement('p');
   date.classList.add('date-text');
   date.textContent = item.dueDate;
 
+  const priority = document.createElement('p');
+  priority.classList.add('priority');
+  priority.textContent = item.priority;
+
   const project = document.createElement('p');
   project.classList.add('project');
   project.textContent = item.project;
+
+  const btns = document.createElement('div');
+  btns.classList.add('btns');
 
   const editBtn = document.createElement('button');
   editBtn.textContent = 'Edit Todo';
   editBtn.classList.add('edit-btn');
   editBtn.id = `edit-btn-${idx}`;
 
+  const svgedit = document.createElement('img');
+
+  svgedit.src = editIcon;
+
+  editBtn.prepend(svgedit);
+
   const deleteBtn = document.createElement('button');
   deleteBtn.textContent = 'Delete Todo';
-  deleteBtn.classList.add('delete-btn');
+  deleteBtn.classList.add('del-btn');
   deleteBtn.id = `delete-btn-${idx}`;
 
-  hidden.append(desc, date, project, editBtn, deleteBtn);
+  const svgdel = document.createElement('img');
 
-  todoCard.append(title, hidden);
+  svgdel.src = delIcon;
+
+  deleteBtn.prepend(svgdel);
+
+  meta.append(date, priority, project);
+
+  btns.append(editBtn, deleteBtn);
+
+  hidden.append(desc, meta, btns);
+
+  todoCard.append(titleDiv, hidden);
 
   return todoCard;
 }
 
 function expandHidden(idx) {
   const hidden = document.getElementById(`hidden-${idx}`);
-  const card = document.getElementById(`toggle-${idx}`);
+  const toggleBtn = document.getElementById(`toggle-${idx}`);
 
-  card.addEventListener('dblclick', () => {
+  toggleBtn.addEventListener('dblclick', () => {
     hidden.classList.toggle('hidden');
   });
 }
@@ -157,6 +199,25 @@ function editTodo(item, idx) {
     date.setAttribute('name', 'edueDate');
     date.value = item.dueDate;
 
+    const priorityLabel = document.createElement('label');
+    priorityLabel.textContent = 'Select Priority';
+
+    const priority = document.createElement('select');
+    priority.setAttribute('name', 'priority');
+    priority.id = 'select-priority';
+
+    priorityLabel.setAttribute('for', 'priority');
+
+    const options = ['priority 1', 'priority 2', 'priority 3', 'priority 4'];
+
+    options.forEach(i => {
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = i;
+
+      priority.append(opt);
+    });
+
     const save = document.createElement('button');
     const cancel = document.createElement('button');
 
@@ -166,7 +227,7 @@ function editTodo(item, idx) {
     save.id = `save-btn-${idx}`;
     cancel.id = `save-btn-${idx}`;
 
-    editForm.append(title, desc, date, save, cancel);
+    editForm.append(title, desc, date, priorityLabel, priority, save, cancel);
     card.append(editForm);
 
     cancel.addEventListener('click', e => {
@@ -181,9 +242,23 @@ function editTodo(item, idx) {
       e.preventDefault();
       const all = JSON.parse(localStorage.getItem('allTodos'));
       const todo = all[idx];
+      const project = JSON.parse(localStorage.getItem(item.project));
+      const projectTodo = project[idx];
+
       todo.title = title.value;
       todo.description = desc.value;
       todo.dueDate = date.value;
+      todo.priority = priority.value;
+      if (item.project !== 'allTodos') {
+        projectTodo.title = title.value;
+        projectTodo.description = desc.value;
+        projectTodo.dueDate = date.value;
+        projectTodo.priority = priority.value;
+
+        project.splice(idx, 1, projectTodo);
+        localStorage.setItem(item.project, JSON.stringify(project));
+      }
+      all.splice(idx, 1, todo);
       localStorage.setItem('allTodos', JSON.stringify(all));
       card.replaceWith(createTodoDOM(todo, idx));
       deleteTodo(item, idx);
@@ -197,7 +272,6 @@ export {
   validateForm,
   validateProject,
   initProject,
-  errorMsg,
   refreshProjects,
   createTodoDOM,
   deleteTodo,

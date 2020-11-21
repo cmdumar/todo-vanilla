@@ -10,11 +10,11 @@ import {
 import displayTodos, { projectEvent } from './modules/displayTodos';
 import createProject from './modules/createProject';
 
-init();
 initProject();
+init();
 projectEvent();
 
-const todoForm = document.querySelector('#new-todo');
+const todoForm = document.querySelector('#todo-form');
 const submit = document.querySelector('#create-todo');
 const createProjectBtn = document.querySelector('#create-project');
 const projectForm = document.querySelector('#project-form');

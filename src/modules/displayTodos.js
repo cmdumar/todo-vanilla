@@ -16,19 +16,19 @@ export default function displayTodos(project = 'allTodos') {
 }
 
 export function projectEvent() {
-  const lis = document.querySelectorAll('.project-btn');
-  const allTodos = document.querySelector('.all-todos');
-  lis.forEach(li => {
-    li.addEventListener('click', () => {
+  const projects = document.querySelectorAll('.project-btn');
+  const allTodos = document.querySelector('#all-todos');
+  projects.forEach(btn => {
+    btn.addEventListener('click', () => {
       const groupTitle = document.getElementById('group-title');
-      groupTitle.textContent = li.textContent;
-      displayTodos(li.textContent);
+      groupTitle.textContent = btn.value;
+      displayTodos(btn.value);
     });
   });
 
   allTodos.addEventListener('click', () => {
     const groupTitle = document.getElementById('group-title');
     groupTitle.textContent = 'Home';
-    displayTodos('allTodos');
+    displayTodos();
   });
 }

@@ -1,6 +1,13 @@
 const path = require('path');
+const svgToMiniDataURI = require('mini-svg-data-uri');
 
 module.exports = {
+  mode: 'development',
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    port: 9000,
+  },
   entry: './src/index.js',
   output: {
     filename: 'bundle.js',
@@ -17,6 +24,17 @@ module.exports = {
           'css-loader',
           // Compiles Sass to CSS
           'sass-loader',
+        ],
+      },
+      {
+        test: /\.svg$/i,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              generator: (content) => svgToMiniDataURI(content.toString()),
+            },
+          },
         ],
       },
     ],

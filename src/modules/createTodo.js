@@ -6,8 +6,11 @@ export default function createTodoInstance(form) {
     description,
     dueDate,
     projects,
+    priority,
   } = form.elements;
-  const newTodo = new Todo(title.value, description.value, dueDate.value, projects.value);
+  const newTodo = new Todo(
+    title.value, description.value, dueDate.value, projects.value, priority.value,
+  );
 
   const allTodos = JSON.parse(localStorage.getItem('allTodos'));
   const project = JSON.parse(localStorage.getItem(projects.value));
