@@ -10,6 +10,10 @@
 * Sass
 * Webpack
 
+## Live Demo
+
+[Live Link](https://raw.githack.com/mohammadumar28/todo-vanilla/todo-vanilla/dist/index.html)
+
 ## How To run the Project
 
 * Open Terminal/Command line
