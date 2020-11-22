@@ -139,7 +139,7 @@ main.append(group);
 
 container.append(sideNav, main);
 
-const init = function init() {
+const init = () => {
   body.append(container);
   displayTodos('allTodos');
 };

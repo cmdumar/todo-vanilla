@@ -2,7 +2,7 @@ import {
   createTodoDOM, deleteTodo, editTodo, expandHidden,
 } from './helpers';
 
-export default function displayTodos(project = 'allTodos') {
+const displayTodos = (project = 'allTodos') => {
   const todos = JSON.parse(localStorage.getItem(project));
   const content = document.querySelector('#todo-content');
   content.textContent = '';
@@ -13,9 +13,9 @@ export default function displayTodos(project = 'allTodos') {
     editTodo(todo, idx);
     expandHidden(idx);
   });
-}
+};
 
-export function projectEvent() {
+const projectEvent = () => {
   const projects = document.querySelectorAll('.project-btn');
   const allTodos = document.querySelector('#all-todos');
   projects.forEach(btn => {
@@ -31,4 +31,7 @@ export function projectEvent() {
     groupTitle.textContent = 'Home';
     displayTodos();
   });
-}
+};
+
+export default displayTodos;
+export { projectEvent };

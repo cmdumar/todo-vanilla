@@ -1,6 +1,6 @@
 import Todo from './todoClass';
 
-export default function createTodoInstance(form) {
+const createTodoInstance = (form) => {
   const {
     title,
     description,
@@ -19,4 +19,6 @@ export default function createTodoInstance(form) {
 
   localStorage.setItem('allTodos', JSON.stringify(allTodos));
   localStorage.setItem(projects.value, JSON.stringify(project));
-}
+};
+
+export default createTodoInstance;

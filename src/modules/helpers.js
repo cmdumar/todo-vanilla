@@ -2,7 +2,7 @@ import editIcon from '../images/pencil.svg';
 import delIcon from '../images/remove.svg';
 import expandIcon from '../images/expand.svg';
 
-function validateForm(form) {
+const validateForm = (form) => {
   const { title, description, dueDate } = form.elements;
 
   if (title.value.length > 4 && description.value.length > 4 && dueDate.value) {
@@ -10,9 +10,9 @@ function validateForm(form) {
   }
 
   return false;
-}
+};
 
-function validateProject(form) {
+const validateProject = (form) => {
   const { projectName } = form.elements;
 
   if (projectName.value.length > 4) {
@@ -20,15 +20,15 @@ function validateProject(form) {
   }
 
   return false;
-}
+};
 
-function initProject() {
+const initProject = () => {
   if (localStorage.getItem('allTodos') == null) {
     localStorage.setItem('allTodos', '[]');
   }
-}
+};
 
-function refreshProjects() {
+const refreshProjects = () => {
   const navList = document.getElementById('nav-list');
   const selectProject = document.querySelector('#project-options');
   selectProject.textContent = '';
@@ -62,9 +62,9 @@ function refreshProjects() {
     option.value = item;
     selectProject.append(option);
   });
-}
+};
 
-function deleteTodo(item, idx) {
+const deleteTodo = (item, idx) => {
   const deleteBtn = document.getElementById(`delete-btn-${idx}`);
   deleteBtn.addEventListener('click', e => {
     e.preventDefault();
@@ -80,9 +80,9 @@ function deleteTodo(item, idx) {
     localStorage.setItem('allTodos', JSON.stringify(allArr));
     document.getElementById(`card-${idx}`).remove();
   });
-}
+};
 
-function createTodoDOM(item, idx) {
+const createTodoDOM = (item, idx) => {
   const todoCard = document.createElement('div');
   todoCard.classList.add('card');
   todoCard.id = `card-${idx}`;
@@ -163,18 +163,18 @@ function createTodoDOM(item, idx) {
   todoCard.append(titleDiv, hidden);
 
   return todoCard;
-}
+};
 
-function expandHidden(idx) {
+const expandHidden = (idx) => {
   const hidden = document.getElementById(`hidden-${idx}`);
   const toggleBtn = document.getElementById(`toggle-${idx}`);
 
   toggleBtn.addEventListener('dblclick', () => {
     hidden.classList.toggle('hidden');
   });
-}
+};
 
-function editTodo(item, idx) {
+const editTodo = (item, idx) => {
   const card = document.getElementById(`card-${idx}`);
   const editBtn = document.getElementById(`edit-btn-${idx}`);
 
@@ -266,7 +266,7 @@ function editTodo(item, idx) {
       expandHidden(idx);
     });
   });
-}
+};
 
 export {
   validateForm,
