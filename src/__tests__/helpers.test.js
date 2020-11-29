@@ -1,4 +1,4 @@
-import { validateForm } from '../modules/helpers';
+import { validateForm, validateProject } from '../modules/helpers';
 
 
 it('Validate the create todo form', () => {
@@ -21,4 +21,23 @@ it('Validate the create todo form', () => {
   expect(validateForm).toBeDefined();
   expect(validateForm(form)).toBe(true);
   expect(validateForm(invalidForm)).toBe(false);
+  expect(validateForm()).toBe(false);
+});
+
+it('Validate the create project form', () => {
+  const form = {
+    elements: {
+      projectName: { value: 'Some projectName' },
+    },
+  };
+
+  const invalidProject = {
+    elements: {
+      projectName: { value: 'Some' },
+    },
+  };
+
+  expect(validateProject(form)).toBe(true);
+  expect(validateProject(invalidProject)).not.toBe(true);
+  expect(validateProject()).toBe(false);
 });
