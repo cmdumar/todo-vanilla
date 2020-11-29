@@ -1,3 +1,5 @@
 import Todo from '../modules/todoClass';
 
-test('Sample test', () => {});
+test('Make a Todo Object', () => {
+  expect(new Todo('title', 'description', 'dueDate', 'projects', 'priority')).toBeDefined();
+});
