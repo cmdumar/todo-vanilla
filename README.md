@@ -21,6 +21,10 @@
 2. Run `npm install` to install node modules.
 3. Open `dist/index.html` in a browser.
 
+## Run Tests
+
+* `npm test` to run all tests.
+
 ## Authors
 
 **Muhammad Umar**
