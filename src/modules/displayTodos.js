@@ -7,12 +7,14 @@ const displayTodos = (project = 'allTodos') => {
   const content = document.querySelector('#todo-content');
   content.textContent = '';
 
-  todos.forEach((todo, idx) => {
-    content.append(createTodoDOM(todo, idx));
-    deleteTodo(todo, idx);
-    editTodo(todo, idx);
-    expandHidden(idx);
-  });
+  if (todos) {
+    todos.forEach((todo, idx) => {
+      content.append(createTodoDOM(todo, idx));
+      deleteTodo(todo, idx);
+      editTodo(todo, idx);
+      expandHidden(idx);
+    });
+  }
 };
 
 const projectEvent = () => {

@@ -3,6 +3,7 @@ import delIcon from '../images/remove.svg';
 import expandIcon from '../images/expand.svg';
 
 const validateForm = (form) => {
+  if (!form) return false;
   const { title, description, dueDate } = form.elements;
 
   if (title.value.length > 4 && description.value.length > 4 && dueDate.value) {
@@ -13,6 +14,7 @@ const validateForm = (form) => {
 };
 
 const validateProject = (form) => {
+  if (!form) return false;
   const { projectName } = form.elements;
 
   if (projectName.value.length > 4) {
