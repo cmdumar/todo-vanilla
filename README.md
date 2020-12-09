@@ -1,6 +1,6 @@
 ## Todolist Vanilla
 
-> A simple Todolist application made with Vanilla JS. Design interface inspired by Todoist.
+> Todolist app created with JavaScript DOM manipulation techniques and Sass. Design interface inspired by Todoist.
 
 ![Screenshot](public/screenshot.png)
 
